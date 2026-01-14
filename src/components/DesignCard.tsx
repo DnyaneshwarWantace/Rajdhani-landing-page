@@ -18,9 +18,10 @@ const DesignCard = ({ design, onView, onDownload, onShare, index }: DesignCardPr
     >
       {/* Image */}
       <div className="relative aspect-square overflow-hidden">
-        <img 
-          src={design.image} 
+        <img
+          src={design.image}
           alt={design.name}
+          loading="lazy"
           className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
         />
         

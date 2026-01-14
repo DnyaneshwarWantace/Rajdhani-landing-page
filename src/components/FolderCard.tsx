@@ -16,9 +16,10 @@ const FolderCard = ({ folder, onClick, index }: FolderCardProps) => {
     >
       {/* Cover Image */}
       <div className="relative aspect-[4/3] overflow-hidden">
-        <img 
-          src={folder.coverImage} 
+        <img
+          src={folder.coverImage}
           alt={folder.name}
+          loading="lazy"
           className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110"
         />
         <div className="absolute inset-0 bg-gradient-to-t from-white via-white/50 to-transparent" />

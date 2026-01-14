@@ -58,18 +58,54 @@ export const catalogFolders: CatalogFolder[] = [
   },
 ];
 
+// Helper function to extract and format name from image key
+const formatImageName = (key: string, category: string): string => {
+  // Extract filename from key (removes path and extension)
+  const filename = key.split('/').pop() || key;
+  const nameWithoutExt = filename.replace(/\.[^/.]+$/, '');
+
+  // Extract the number at the end (after last underscore or dash)
+  const parts = nameWithoutExt.split(/[_-]/);
+  const lastPart = parts[parts.length - 1];
+
+  // Check if last part is a number
+  if (/^\d+$/.test(lastPart)) {
+    // For Rajdhani digital carpets, use RD- prefix
+    if (category === 'rajdhani-digital-carpets') {
+      return `RD-${lastPart}`;
+    }
+    // For other collections, just use the number
+    return lastPart;
+  }
+
+  // Fallback: try to find any number in the name
+  const numberMatch = nameWithoutExt.match(/\d+/);
+  if (numberMatch && category === 'rajdhani-digital-carpets') {
+    return `RD-${numberMatch[0]}`;
+  }
+
+  // If no number found, format the whole name
+  return nameWithoutExt
+    .replace(/[-_]/g, ' ')
+    .replace(/\s+/g, ' ')
+    .trim()
+    .split(' ')
+    .map(word => word.charAt(0).toUpperCase() + word.slice(1).toLowerCase())
+    .join(' ');
+};
+
 // Function to load images from API and update folders
 export const loadCollectionImages = async (): Promise<CatalogFolder[]> => {
   const updatedFolders = await Promise.all(
     catalogFolders.map(async (folder) => {
       try {
         const images = await CollectionService.getCollectionImages(folder.id);
-        
+
         // Convert API images to design format
         const designs = images.map((img, index) => ({
           id: `${folder.id}-${index + 1}`,
-          name: `Design ${index + 1}`,
-          description: `Design from ${folder.name}`,
+          name: formatImageName(img.key, folder.id),
+          description: `${formatImageName(img.key, folder.id)} from ${folder.name}`,
           image: img.url,
           category: folder.id,
         }));

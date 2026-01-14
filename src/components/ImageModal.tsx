@@ -38,6 +38,7 @@ const ImageModal = ({ design, isOpen, onClose, onDownload, onShare }: ImageModal
           <img
             src={design.image}
             alt={design.name}
+            loading="lazy"
             className="transition-transform duration-300 max-w-full h-auto object-contain"
             style={{ transform: `scale(${zoom})` }}
           />
