@@ -27,3 +27,7 @@ dist-ssr
 .env
 .env.local
 .env.*.local
+
+# Image folders - too large for git
+RAJDHANI DIGITAL DESIGNS 2/
+**/RAJDHANI DIGITAL DESIGNS 2/
