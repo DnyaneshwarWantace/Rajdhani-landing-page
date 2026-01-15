@@ -5,9 +5,9 @@ const Header = () => {
         {/* Logo - Centered and bigger */}
         <div className="flex items-center justify-center">
           <img 
-            src="/rajdhani-logo-2.png" 
+            src="/logo.svg" 
             alt="Rajdhani Logo" 
-            className="h-8 sm:h-10 md:h-12 w-auto object-contain"
+            className="h-20 sm:h-24 md:h-28 lg:h-32 w-auto object-contain rounded-lg"
           />
         </div>
       </div>
