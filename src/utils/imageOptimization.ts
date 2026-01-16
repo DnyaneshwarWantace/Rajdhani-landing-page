@@ -14,15 +14,21 @@ export interface ImageOptimizationOptions {
 /**
  * Optimize image URL using Cloudflare Image Resizing
  * This works if your R2 bucket is served through Cloudflare
+ *
+ * NOTE: Currently disabled because R2 public URLs (pub-*.r2.dev) don't support
+ * image transformations. To enable optimization, set up a custom domain.
  */
 export const optimizeImageUrl = (
   imageUrl: string,
   options: ImageOptimizationOptions = {}
 ): string => {
-  // Skip optimization in development (localhost)
-  if (import.meta.env.DEV || imageUrl.includes('localhost')) {
-    return imageUrl;
-  }
+  // DISABLED: R2 public URLs don't support /cdn-cgi/image/ transformations
+  // They only work with custom domains proxied through Cloudflare
+  // For now, just return the original URL
+  return imageUrl;
+
+  /*
+  // Uncomment this when using custom domain instead of pub-*.r2.dev
 
   const {
     width,
@@ -32,9 +38,7 @@ export const optimizeImageUrl = (
     fit = 'scale-down'
   } = options;
 
-  // Build optimization parameters
   const params: string[] = [];
-
   if (width) params.push(`width=${width}`);
   if (height) params.push(`height=${height}`);
   params.push(`quality=${quality}`);
@@ -42,19 +46,10 @@ export const optimizeImageUrl = (
   params.push(`fit=${fit}`);
 
   const paramsString = params.join(',');
-
-  // Check if URL is from Cloudflare R2
-  if (imageUrl.includes('.r2.dev') || imageUrl.includes('rajdhanicarpets.com')) {
-    // Extract the path after the domain
-    const url = new URL(imageUrl);
-    const path = url.pathname;
-
-    // Use Cloudflare Image Resizing
-    return `${url.origin}/cdn-cgi/image/${paramsString}${path}`;
-  }
-
-  // Return original URL if not from R2
-  return imageUrl;
+  const url = new URL(imageUrl);
+  const path = url.pathname;
+  return `${url.origin}/cdn-cgi/image/${paramsString}${path}`;
+  */
 };
 
 /**
