@@ -1,5 +1,7 @@
 import { Folder, ChevronRight } from "lucide-react";
 import type { CatalogFolder } from "@/types/catalog";
+import { getOptimizedImage, generateSrcSet } from "@/utils/imageOptimization";
+import ImageWithPlaceholder from "./ImageWithPlaceholder";
 
 interface FolderCardProps {
   folder: CatalogFolder;
@@ -16,8 +18,10 @@ const FolderCard = ({ folder, onClick, index }: FolderCardProps) => {
     >
       {/* Cover Image */}
       <div className="relative aspect-[4/3] overflow-hidden">
-        <img
-          src={folder.coverImage}
+        <ImageWithPlaceholder
+          src={getOptimizedImage.cover(folder.coverImage)}
+          srcSet={generateSrcSet(folder.coverImage)}
+          sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw"
           alt={folder.name}
           loading="lazy"
           className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110"

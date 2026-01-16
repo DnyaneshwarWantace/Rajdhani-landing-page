@@ -3,6 +3,7 @@ import { useState } from "react";
 import type { CarpetDesign } from "@/types/catalog";
 import { Button } from "@/components/ui/button";
 import { Dialog, DialogContent } from "@/components/ui/dialog";
+import { getOptimizedImage } from "@/utils/imageOptimization";
 
 interface ImageModalProps {
   design: CarpetDesign | null;
@@ -36,7 +37,7 @@ const ImageModal = ({ design, isOpen, onClose, onDownload, onShare }: ImageModal
         {/* Image container */}
         <div className="relative overflow-auto max-h-[50vh] sm:max-h-[60vh] bg-navy-deep flex items-center justify-center p-4">
           <img
-            src={design.image}
+            src={getOptimizedImage.fullView(design.image)}
             alt={design.name}
             loading="lazy"
             className="transition-transform duration-300 max-w-full h-auto object-contain"

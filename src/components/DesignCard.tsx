@@ -1,6 +1,8 @@
 import { Eye, Download, Share2 } from "lucide-react";
 import type { CarpetDesign } from "@/types/catalog";
 import { Button } from "@/components/ui/button";
+import { getOptimizedImage, generateSrcSet } from "@/utils/imageOptimization";
+import ImageWithPlaceholder from "./ImageWithPlaceholder";
 
 interface DesignCardProps {
   design: CarpetDesign;
@@ -18,8 +20,10 @@ const DesignCard = ({ design, onView, onDownload, onShare, index }: DesignCardPr
     >
       {/* Image */}
       <div className="relative aspect-square overflow-hidden">
-        <img
-          src={design.image}
+        <ImageWithPlaceholder
+          src={getOptimizedImage.thumbnail(design.image)}
+          srcSet={generateSrcSet(design.image)}
+          sizes="(max-width: 640px) 50vw, (max-width: 1024px) 33vw, 25vw"
           alt={design.name}
           loading="lazy"
           className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
